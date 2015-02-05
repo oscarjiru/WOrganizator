@@ -1,0 +1,106 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package WO.Inv_list;
+
+/**
+ *
+ * @author Arkadious94
+ */
+public class Lista {
+    String lista[];
+    int siguiente=0;
+    
+    
+    /**
+     * recibe la cantidad maxima de invitados que se desea o se permite(aforo) 
+     * en una fiesta
+     *@param longitud 
+     */
+    public Lista(int longitud){
+        lista=new String[longitud];
+    }
+    
+    /**
+     * recibe la cantidad de invitados que se desea que ingresen 
+     * en la fiesta
+     *@param nombres 
+     */
+    public void registrar(String... nombres){
+        for (String nombre : nombres) {
+            if (registrar(nombre)) {
+                lista[siguiente] = nombre;
+                siguiente++;
+            } else {
+                break;
+            }
+        }
+    }
+    
+    /**
+     *Recive un nombre de invitado y comprueba que pueda ingresar en la fiesta
+     * @param nombre
+     * @return true se accede y @return false si no 
+     */
+    public boolean registrar(String nombre){
+        if (siguiente>=lista.length) {
+            return false;
+        }else{
+            lista[siguiente]=nombre;
+            siguiente++;
+            return true;   
+        }
+    }
+    
+    /**
+     *@return int de numero de invitados que asisitiran 
+     */
+    public int getNumero_invitados(){
+        return siguiente;
+    }
+    
+    /**
+     *@param invitado si el invitado esta incluido en la fiesta 
+     * @return true si n devolvera false
+     */
+    public boolean buscarInvitado(String invitado){
+        for (String lista1 : lista) {
+            if (lista1.equals(invitado)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     *@param invitado si el invitado esta incluido en la fiesta 
+     * @return el indice en la matriz si est si no devuelve le siguiente espacio libre
+     */
+    public int buscarPosicioInvitado(String invitado){
+        if (buscarInvitado( invitado)) {
+            for (int i=0;i<lista.length;i++) {
+                if (lista[i].equals(invitado)) {
+                    return i;
+                }
+             }
+            
+        }
+        return siguiente;
+        
+    }
+    
+    /**Elimina un registro de la lista y hace que todos los invitados de el hacia abajo bajen su numero de indice en la matriz
+     *@param invitado 
+     */
+    public void borrarInvitado(String invitado){
+        int borrado=buscarPosicioInvitado(invitado);
+        if (borrado==siguiente){
+            lista[borrado]="";
+            siguiente-=1;
+            for(int i=borrado ; i < lista.length; i++) {
+                lista[i]=lista[i+1];
+            }
+        }
+    }
+}
